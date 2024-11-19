@@ -206,7 +206,8 @@
 )
 
 #set text(font: ziti.kaiti, size: zihao.xiaosi)
-#set par(leading: 1.25em, first-line-indent: 1.5em, spacing: 1em, hanging-indent: 1.5em, justify: true)
+#show heading: set par(leading: 1em)
+#set par(leading: 1.25em, first-line-indent: 3.5em, spacing: 1.25em, hanging-indent: 1.5em, justify: true)
 
 = 请综述课题国内外研究进展、现状、挑战与意义，可分节描述。博士生不少于10,000汉字，硕士生不少于5,000汉字。请在文中标注参考文献。 Please review the frontier, current status, challenges and significance of the research topic. The citations should be marked in the context and listed in order at the end of this section. No less than 8,000 words for doctoral students and 4,000 words for master students if written in English.
 
@@ -228,7 +229,7 @@
 
 非常有意义。
 
-#bibliography("ref.bib", title: h(1.2em) + "参考文献 Reference：", style: "gb-7714-2015-numeric")
+#bibliography("ref.bib", title: h(1.5em) + "参考文献 Reference：", style: "gb-7714-2015-numeric")
 
 = 课题研究目标、主要研究内容和拟解决的关键问题。Research objectives, main contents and key issues to be solved.
 
