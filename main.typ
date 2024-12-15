@@ -1,5 +1,5 @@
 #import "style.typ": zihao, ziti
-#import "utils.typ": align-enum-marker-with-baseline
+#import "utils.typ": *
 #import "@preview/cuti:0.2.1": show-cn-fakebold
 #import "@preview/numbly:0.1.0": numbly
 
@@ -27,11 +27,25 @@
 #set par(leading: 1em)
 #show: align-enum-marker-with-baseline
 #show: show-cn-fakebold
-#show link: it => {
-  underline(text(rgb(0, 0, 255), it))
-}
 #show bibliography: set par(hanging-indent: 0em)
 #let uline(width, body) = box(body, width: width, stroke: (bottom: 0.5pt), outset: (bottom: 2pt))
+#let fake-par = context {
+  let b = par(box())
+  b
+  v(-measure(b + b).height)
+}
+#show list: it => {
+  it
+  fake-par
+}
+#show figure: it => {
+  it
+  fake-par
+}
+#show enum: it => {
+  it
+  fake-par
+}
 
 #let date = datetime(year: 2024, month: 12, day: 30)
 #let info = (
@@ -103,7 +117,7 @@
 
 #table(
   align: left,
-  columns: (38%, 62%),
+  columns: (38%, 1fr),
   row-gutter: 1em,
   [#info-key("学号", "Student ID")], [#info-value(info.student_id)],
   [#info-key("姓名", "Name")], [#info-value(info.name)],
@@ -144,10 +158,13 @@
 
 #set text(font: ziti.fangsong, size: zihao.xiaosi)
 #set par(justify: true)
+#let mysjtu-link(it) = {
+  underline(text(rgb(0, 0, 255), link("http://my.sjtu.edu.cn/")[#it]))
+}
 
-1. 校本部研究生的开题报告应通过#link("http://my.sjtu.edu.cn/")[数字交大]在线提交申请，填写本表并上传系统。特殊情况下经研究生院事先同意，可不上传系统，并使用《上海交通大学研究生论文开题评审表》完成评审。
+1. 校本部研究生的开题报告应通过#mysjtu-link[数字交大]在线提交申请，填写本表并上传系统。特殊情况下经研究生院事先同意，可不上传系统，并使用《上海交通大学研究生论文开题评审表》完成评审。
   #v(0.2em)
-  The application for thesis/dissertation proposal should be submitted online through #link("http://my.sjtu.edu.cn/")[My SJTU]. The student shall fill this form and upload it in the system. Under special circumstance, this form does not need to be uploaded and the review can be proceeded with the review form with prior consent from the graduate school.
+  The application for thesis/dissertation proposal should be submitted online through #mysjtu-link[My SJTU]. The student shall fill this form and upload it in the system. Under special circumstance, this form does not need to be uploaded and the review can be proceeded with the review form with prior consent from the graduate school.
   #v(0.1em)
 
 2. 开题报告为A4大小，于左侧装订成册。各栏空格不够时，请自行加页。考核前提前一周送交导师、评审专家审阅。
@@ -180,7 +197,7 @@
   center,
   table(
     align: left + horizon,
-    columns: (22%, 78%),
+    columns: (22%, 1fr),
     stroke: 0.5pt + black,
     inset: (y: 10pt),
     [论文题目 Proposed Title], [#info.title],
@@ -196,7 +213,7 @@
 
       $square$ 其它纵向科研课题 Other Governmental Research Grants
 
-      $checkmark$ 企业横向课题 R&D Projects from Industry
+      #checkbox 企业横向课题 R&D Projects from Industry
 
       $square$ 自拟课题 Self-proposed Project
 
@@ -208,6 +225,7 @@
 #set text(font: ziti.kaiti, size: zihao.xiaosi)
 #show heading: set par(leading: 1em)
 #set par(leading: 1.25em, first-line-indent: 3.5em, spacing: 1.25em, hanging-indent: 1.5em, justify: true)
+#set enum(indent: 1.5em)
 
 = 请综述课题国内外研究进展、现状、挑战与意义，可分节描述。博士生不少于10,000汉字，硕士生不少于5,000汉字。请在文中标注参考文献。 Please review the frontier, current status, challenges and significance of the research topic. The citations should be marked in the context and listed in order at the end of this section. No less than 8,000 words for doctoral students and 4,000 words for master students if written in English.
 
@@ -262,7 +280,7 @@
 #linebreak()
 
 #table(
-  columns: (60%, 40%),
+  columns: (60%, 1fr),
   stroke: none,
   inset: 0em,
   [学生签字/Signature of Student：], [日期/Date：#date.display()],
