@@ -2,6 +2,7 @@
 #import "utils.typ": *
 #import "@preview/cuti:0.2.1": show-cn-fakebold
 #import "@preview/numbly:0.1.0": numbly
+#import "@preview/itemize:0.1.2" as el
 
 #set heading(
   numbering: numbly(
@@ -16,39 +17,23 @@
   show h.where(amount: 0.3em): none
   it
 }
-#show heading: it => {
-  v(1em)
-  it
-  h(2em)
-}
+#show heading.where(level: 1): set block(above: 2.5em, below: 1.5em)
+#show heading.where(level: 2): set block(above: 2em, below: 1.5em)
+#show heading.where(level: 3): set block(above: 1.75em, below: 1.5em)
+#show heading.where(level: 4): set block(above: 1.5em, below: 1.5em)
 #show heading.where(level: 1): set text(font: ziti.fangsong, weight: "bold", size: zihao.xiaosi, top-edge: 3pt)
 #show heading.where(level: 2): set text(font: ziti.kaiti, weight: "bold", size: zihao.xiaosi)
 #set page(margin: (x: 2.8cm, y: 2.5cm))
 #set text(hyphenate: false, font: ziti.songti)
 #set par(leading: 1em)
-#show: align-enum-marker-with-baseline
+#show: el.default-enum-list
+#set enum(body-indent: 1em)
 #show: show-cn-fakebold
 #show bibliography: set par(hanging-indent: 0em)
 #let uline(width, body) = box(body, width: width, stroke: (bottom: 0.5pt), outset: (bottom: 2pt))
-#let fake-par = context {
-  let b = par(box())
-  b
-  v(-measure(b + b).height)
-}
-#show list: it => {
-  it
-  fake-par
-}
-#show figure: it => {
-  it
-  fake-par
-}
-#show enum: it => {
-  it
-  fake-par
-}
 
-#let date = datetime(year: 2024, month: 12, day: 30)
+#let report-date = datetime(year: 2024, month: 12, day: 30)
+#let defense-date = datetime(year: 2025, month: 1, day: 2)
 #let info = (
   student_id: "012345678910",
   name: "张三",
@@ -58,7 +43,8 @@
   title: "一个很长很长的题目",
   school: "上海交通大学",
   major: "电子信息",
-  date: date.display("[year]年[month]月[day]日"),
+  report-date: report-date.display("[year]年[month]月[day]日"),
+  defense-date: defense-date.display("[year]年[month]月[day]日"),
   venue: "电院3-326A",
 )
 
@@ -101,11 +87,13 @@
     font: ziti.kaiti,
     size: zihao.sihao,
     weight: "black",
-  ) + h(0.5em) + text(
-    en,
-    size: zihao.xiaosi,
-    weight: "bold",
   )
+    + h(0.5em)
+    + text(
+      en,
+      size: zihao.xiaosi,
+      weight: "bold",
+    )
 )
 
 #let info-value(v) = (
@@ -128,7 +116,7 @@
   [#info-key("论文题目", "Thesis Title")], [#info-value(info.title)],
   [#info-key("学院", "School")], [#info-value(info.school)],
   [#info-key("专业", "Major")], [#info-value(info.major)],
-  [#info-key("开题日期", "Date")], [#info-value(info.date)],
+  [#info-key("开题日期", "Date")], [#info-value(info.defense-date)],
   [#info-key("开题地点", "Venue")], [#info-value(info.venue)],
 )
 
@@ -225,12 +213,17 @@
 
 #set text(font: ziti.kaiti, size: zihao.xiaosi)
 #show heading: set par(leading: 1em)
-#set par(leading: 1.25em, first-line-indent: 3.5em, spacing: 1.25em, hanging-indent: 1.5em, justify: true)
-#set enum(indent: 1.5em)
+#set par(
+  leading: 1.25em,
+  first-line-indent: (amount: 3.5em, all: true),
+  spacing: 1.25em,
+  hanging-indent: 1.5em,
+  justify: true,
+)
+#set enum(indent: 1.75em)
 #show enum: set par(hanging-indent: 0em)
-#set list(indent: 1.5em)
+#set list(indent: 2.65em)
 #show list: set par(hanging-indent: 0em)
-
 
 = 请综述课题国内外研究进展、现状、挑战与意义，可分节描述。博士生不少于10,000汉字，硕士生不少于5,000汉字。请在文中标注参考文献。 Please review the frontier, current status, challenges and significance of the research topic. The citations should be marked in the context and listed in order at the end of this section. No less than 8,000 words for doctoral students and 4,000 words for master students if written in English.
 
@@ -288,5 +281,11 @@
   columns: (60%, 1fr),
   stroke: none,
   inset: 0em,
-  [学生签字/Signature of Student：], [日期/Date：#date.display()],
+  [
+    #grid(
+      columns: (70%, 1fr),
+      [学生签字/Signature of Student：], place(dx: -20pt, dy: -22pt, image("figures/student-sign.png", height: 2.5em)),
+    )
+  ],
+  [日期/Date：#report-date.display()],
 )
